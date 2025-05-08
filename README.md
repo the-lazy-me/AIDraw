@@ -27,7 +27,7 @@
 # 全局配置文件
 
 # 默认绘图模型
-draw_model: dall-e-3
+draw_model: Daydream
 
 # 默认图片宽度
 image_width: 1024
