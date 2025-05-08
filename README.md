@@ -1,42 +1,92 @@
-# HelloPlugin
+# AIDraw 绘图插件
 
-<!--
-## 插件开发者详阅
+一个简单强大的LangBot AI绘图插件，支持基于提示词生成图片。
 
-### 开始
+## 功能特点
 
-此仓库是 LangBot 插件模板，您可以直接在 GitHub 仓库中点击右上角的 "Use this template" 以创建你的插件。  
-接下来按照以下步骤修改模板代码：
+- 使用[启航 AI](https://api.qhaigc.net/) 的高质量绘图模型
+- 支持高品质图片生成
+- 配置友好，易于使用
+- 图片自动保存，方便查看历史生成记录
 
-#### 修改模板代码
+## 安装方法
 
-- 修改此文档顶部插件名称信息
-- 将此文档下方的`<插件发布仓库地址>`改为你的插件在 GitHub· 上的地址
-- 补充下方的`使用`章节内容
-- 修改`main.py`中的`@register`中的插件 名称、描述、版本、作者 等信息
-- 修改`main.py`中的`MyPlugin`类名为你的插件类名
-- 将插件所需依赖库写到`requirements.txt`中
-- 根据[插件开发教程](https://docs.langbot.app/plugin/dev/tutor.html)编写插件代码
-- 删除 README.md 中的注释内容
-
-
-#### 发布插件
-
-推荐将插件上传到 GitHub 代码仓库，以便用户通过下方方式安装。   
-欢迎[提issue](https://github.com/RockChinQ/LangBot/issues/new?assignees=&labels=%E7%8B%AC%E7%AB%8B%E6%8F%92%E4%BB%B6&projects=&template=submit-plugin.yml&title=%5BPlugin%5D%3A+%E8%AF%B7%E6%B1%82%E7%99%BB%E8%AE%B0%E6%96%B0%E6%8F%92%E4%BB%B6)，将您的插件提交到[插件列表](https://github.com/stars/RockChinQ/lists/qchatgpt-%E6%8F%92%E4%BB%B6)
-
-下方是给用户看的内容，按需修改
--->
-
-## 安装
-
-配置完成 [LangBot](https://github.com/RockChinQ/LangBot) 主程序后使用管理员账号向机器人发送命令即可安装：
+配置完成 [LangBot](https://github.com/RockChinQ/LangBot)主程序后使用管理员账号向机器人发送命令即可安装：
 
 ```
-!plugin get <你的插件发布仓库地址>
+!plugin get https://github.com/your-username/AIDraw.git
 ```
-或查看详细的[插件安装说明](https://docs.langbot.app/plugin/plugin-intro.html#%E6%8F%92%E4%BB%B6%E7%94%A8%E6%B3%95)
 
-## 使用
+## 配置说明
 
-<!-- 插件开发者自行填写插件使用说明 -->
+插件首次运行时会在 `data/plugins/AIDraw` 目录下自动创建配置文件 `config.yaml`。这个配置文件是从插件目录下的 `templates/config.yaml.example` 模板复制而来。
+
+配置文件内容如下：
+
+```yaml
+# 全局配置文件
+
+# 默认绘图模型
+draw_model: dall-e-3
+
+# 默认图片宽度
+image_width: 1024
+
+# 默认图片高度
+image_height: 1024
+
+# 调试模式（启用详细日志和临时文件保存）
+# 0: 关闭, 1: 开启
+aidraw_debug: 0
+```
+
+所有的配置信息都集中在这个文件中，您可以根据需要修改相关参数。
+
+### API配置
+
+插件使用 OpenAI 兼容的图像生成 API，需要在 `data/config/provider.json` 中配置：
+
+```json
+{
+  "requester": {
+    "openai-chat-completions": {
+      "base-url": "https://api.openai.com/v1"
+    }
+  },
+  "keys": {
+    "openai": [
+      "your-api-key-here"
+    ]
+  }
+}
+```
+
+您可以使用 OpenAI 的 API 或任何兼容 OpenAI API 的第三方服务，如[启航AI](https://api.qhaigc.net/)等。
+
+## 使用方法
+
+### 基本命令
+
+- `/draw <提示词>` - 根据提示词生成图片，可以通过`-w`和`-h`指定宽和高
+- `/draw 帮助` - 查看帮助信息
+
+### 绘图示例
+
+```
+/draw girl
+/draw girl -w 1024
+/draw girl -w 1024 -h 1536
+/draw 帮助
+```
+
+系统将根据提示词生成相应的图片，并发送到当前聊天。
+
+### 注意事项
+
+1. 生成图片质量和效果与提示词质量密切相关，建议提供详细且清晰的描述
+2. 部分模型可能有内容限制，某些敏感内容可能会被过滤
+3. 图片生成需要一定时间，请耐心等待
+
+## 支持平台
+
+AIDraw 插件支持 LangBot 支持的所有平台。
