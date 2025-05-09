@@ -30,10 +30,10 @@
 draw_model: Daydream
 
 # 默认图片宽度
-image_width: 1024
+image_width: 512
 
 # 默认图片高度
-image_height: 1024
+image_height: 768
 
 # 调试模式（启用详细日志和临时文件保存）
 # 0: 关闭, 1: 开启
